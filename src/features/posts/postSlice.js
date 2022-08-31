@@ -3,14 +3,14 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getPosts } from "../../services/api";
 
 const initialState = {
-  post: [],
+  posts: [],
   isError: false,
   isLoading: false,
   isSuccess: false,
   message: "",
 };
 
-export const getPost = createAsyncThunk("getPost", async (_, thunkAPI) => {
+export const getPost = createAsyncThunk("posts/getAll", async (_, thunkAPI) => {
   try {
     const response = await getPost();
     return response.data;

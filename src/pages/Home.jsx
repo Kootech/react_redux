@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "../components/Card";
 
-import { getPosts } from "../services/api";
+import { getPost } from "../features/posts/postSlice";
 
 const Home = () => {
-  const [posts, setPosts] = useState([]);
+  const dispatch = useDispatch();
+  const { posts, isError, isLoading, message } = useSelector(
+    (state) => state.posts
+  );
   useEffect(() => {
-    async function postApi() {
-      const posts = await getPosts();
-      setPosts(posts.data);
+    if (isError) {
+      console.log(message);
     }
-    postApi();
-  }, []);
+    dispatch(getPost());
+  }, [posts]);
+  if (isLoading) return <h1>...Loading</h1>;
   return (
     <>
+      {console.log(posts)}
       <h1 className="text-5xl">cards</h1>
       <div className="grid grid-cols-4 gap-2">
         {posts.map((post) => {
