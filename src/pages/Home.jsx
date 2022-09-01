@@ -14,7 +14,7 @@ const Home = () => {
       console.log(message);
     }
     dispatch(getPost());
-  }, [posts]);
+  }, []);
   if (isLoading) return <h1>...Loading</h1>;
   return (
     <>

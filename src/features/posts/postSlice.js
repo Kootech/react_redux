@@ -2,8 +2,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { getPosts } from "../../services/api";
 
+const sessionPosts = JSON.parse(sessionStorage.getItem("posts"));
+
 const initialState = {
-  posts: [],
+  posts: sessionPosts ? sessionPosts : [],
   isError: false,
   isLoading: false,
   isSuccess: false,
@@ -12,8 +14,10 @@ const initialState = {
 
 export const getPost = createAsyncThunk("posts/getAll", async (_, thunkAPI) => {
   try {
-    const response = await getPost();
-    return response.data;
+    console.log(`about to hit api`);
+    const response = await getPosts();
+    console.log(`api was hit and data is ${response.data}`);
+    return await response.data;
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
@@ -24,7 +28,7 @@ export const getPost = createAsyncThunk("posts/getAll", async (_, thunkAPI) => {
 });
 
 export const postSlice = createSlice({
-  name: "posts",
+  name: "post",
   initialState,
   reducers: {
     reset: (state) => initialState,
